@@ -28,11 +28,11 @@ if (isset($_POST['login'])) {
 
 ?>
 
-<body class="w-full px-6 flex flex-col justify-center bg-slate-50 ">
-  <section class=" flex space-x-10 h-screen ">
+<body class="w-full flex flex-col justify-center bg-slate-50 ">
+  <section class="px-6 flex space-x-10 h-screen ">
     <div class=" w-[60%] h flex flex-col justify-center items-center rounded-md bg-cover bg-bottom">
       <div class=" w-[70%] bg-cover bg-center">
-        <img src="../../assets/lohin.png" alt="logo-tiara" class=" w-full object-cover">
+        <img src="../../assets/login.png" alt="logo-tiara" class=" w-full object-cover">
       </div>
     </div>
     <div class=" w-[40%] px-6 mx-auto flex flex-col items-center ">
@@ -81,3 +81,6 @@ if (isset($_POST['login'])) {
     </div>
   </section>
 </body>
+<?php 
+include '../../includes/footer.php';
+?>
