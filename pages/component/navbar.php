@@ -19,7 +19,8 @@ if ($_SESSION['role'] == 'admin') {
 }
 
 ?>
-<section class=" w-full h-200px text-slate-800 sticky top-0 m-auto bg-glass-bg backdrop-blur-lg shadow-lg">
+<!-- -->
+<section class=" w-full h-200px sticky top-0 m-auto text-slate-800 bg-glass-bg backdrop-blur-lg shadow-lg">
   <nav class=" px-6 py-2 flex justify-between items-center">
     <div class=" flex items-center">
       <div class=" w-[80px] h-[47px] mr-3 bg-cover bg-center">

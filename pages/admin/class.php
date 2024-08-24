@@ -8,18 +8,24 @@ if (!isset($_SESSION['role']) && !isset($_SESSION['current_user'])) {
   exit();
 }
 
+
 // [ PAGINATION ]
-$limit = 5; // Jumlah data per halaman
+$limit = 10; // Jumlah data per halaman
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
 $start = ($page > 1) ? ($page * $limit) - $limit : 0; // Hitung offset
 
+$popupMessage = '';
+$searchClass = '';
+
 // [ GET ] all kelas
-$sqlClass = "SELECT class.*, materi.nama_materi, admin.admin_name FROM class JOIN materi ON class.materi = materi.id_materi JOIN admin ON class.pengajar = admin.id_admin";
+$sqlClass = "SELECT class.*, materi.nama_materi, admin.admin_name 
+            FROM class JOIN materi ON class.materi = materi.id_materi 
+            JOIN admin ON class.pengajar = admin.id_admin ";
 
 // [ GET ] get kelas dari searchbox (jika ada)
 if (isset($_GET['searchbox']) && !empty($_GET['searchbox'])) {
   $searchClass = '%' . $_GET['searchbox'] . '%';
-  $sqlClass .= "WHERE nama_kelas LIKE : searchbox";
+  $sqlClass .= "WHERE class.nama_kelas LIKE :searchbox ";
 }
 
 $sqlClass .= " LIMIT :limit OFFSET :offset";
@@ -27,7 +33,7 @@ $sqlClass .= " LIMIT :limit OFFSET :offset";
 $queryClass = $conn->prepare($sqlClass);
 
 if (!empty($searchClass)) {
-  $queryClass->bindParam(':searchbox', $searchClass);
+  $queryClass->bindParam(':searchbox', $searchClass, PDO::PARAM_STR);
 }
 
 $queryClass->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -39,7 +45,7 @@ $rowClass = $queryClass->fetchAll(PDO::FETCH_ASSOC);
 // [GET] Hitung total data untuk pagination
 $sqlCount = "SELECT COUNT(*) as total FROM class";
 if (!empty($searchClass)) {
-  $sqlCount .= " WHERE nama_materi LIKE :searchbox";
+  $sqlCount .= " WHERE class.nama_kelas LIKE :searchbox";
 }
 
 $queryCount = $conn->prepare($sqlCount);
@@ -66,6 +72,19 @@ $sqlMentor = "SELECT * FROM admin WHERE role = 'employee'";
 $queryMentor = $conn->prepare($sqlMentor);
 $queryMentor->execute();
 $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (isset($_POST['submitNewClass'])) {
+    $insertClass = $conn->prepare("INSERT INTO `class` (`nama_kelas`, `pengajar`, `materi`, `ruangan`, `durasi`, `tanggal`) VALUES (?, ?, ?, ?, ?, ?)");
+    $insertClass->execute([$_POST['nama_kelas'], $_POST['selected_pengajar'], $_POST['selected_materi'], $_POST['ruangan'], $_POST['durasi'], $_POST['tanggal']]);
+
+    if ($insertClass->rowCount() > 0) {
+      $_SESSION['popupMessage'] = "Berhasil Menambahkan Kelas !";
+      header('Location: ./class.php');
+      exit();
+    }
+  }
+}
 
 
 ?>
@@ -241,10 +260,10 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
     </section>
 
     <section id="formAddClass" class="hidden fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="  rounded-md w-[40%] ">
-        <div class=" bg-white px-6 py-5 rounded-md">
-          <div class=" flex items-center border-b-[1.5px] border-b-slate-500 py-3 mb-5 ">
-            <div class=" w-[60px] h-[60px] mr-4 border border-slate-800  rounded-[50%] flex justify-center items-center">
+      <div class="rounded-md w-[40%]">
+        <div class="bg-white px-6 py-5 rounded-md">
+          <div class="flex items-center border-b-[1.5px] border-b-slate-500 py-3 mb-5">
+            <div class="w-[60px] h-[60px] mr-4 border border-slate-800 rounded-[50%] flex justify-center items-center">
               <i class="fa-solid fa-school text-2xl"></i>
             </div>
             <div class="py-3">
@@ -253,15 +272,17 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <form action="" method="POST" class="grid grid-cols-3 gap-2">
             <input type="hidden" name="resetID" value="<?= $_SESSION['userID'] ?>">
-            <label for="nama_kelas" class=" px-1 text-sm font-medium text-slate-800">Nama Kelas</label>
-            <input type="text" name="nama_kelas" placeholder="Nama..." class=" col-span-2 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
 
-            <label for="ruangan" class=" px-1 text-sm font-medium text-slate-800">Ruangan</label>
-            <input type="text" name="ruangan" id="" placeholder="Ruangan..." class="col-span-2 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
+            <label for="nama_kelas" class="px-1 text-sm font-medium text-slate-800">Nama Kelas</label>
+            <input type="text" name="nama_kelas" placeholder="Nama..." class="col-span-2 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
 
-            <div class=" w-full relative inline-block col-start-2 col-end-3 mb-3">
-              <button type="button" id="newDropdownPengajar" class=" w-full px-3 py-2 flex justify-between items-center col-start-2 col-end-3 border border-slate-400  rounded-md">Pengajar<i class="fa-solid fa-chevron-down ml-2"></i></button>
-              <ul id="newListMentor" class=" text-left text-sm hidden absolute left-0 mt-2 border-2 border-white bg-white shadow-md rounded-md">
+            <label for="ruangan" class="px-1 text-sm font-medium text-slate-800">Ruangan</label>
+            <input type="text" name="ruangan" placeholder="Ruangan..." class="col-span-2 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
+
+            <label for="dropdown" class=" px-1 text-sm font-medium text-slate-800">Pengajar & Materi</label>
+            <div class="w-full relative inline-block col-start-2 col-end-3 mb-3">
+              <button type="button" id="newDropdownPengajar" class="w-full px-3 py-2 flex justify-between items-center border border-slate-400 rounded-md">Pengajar<i class="fa-solid fa-chevron-down ml-2"></i></button>
+              <ul id="newListMentor" class="text-left text-sm hidden absolute left-0 mt-2 border-2 border-white bg-white shadow-md rounded-md">
                 <?php foreach ($rowMentor as $mentor) : ?>
                   <?php if ($mentor['id_admin'] != 1) : ?>
                     <li class="p-2 rounded-md hover:cursor-pointer hover:bg-slate-200" data-value="<?= htmlspecialchars($mentor['id_admin']); ?>">
@@ -272,9 +293,9 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
               </ul>
             </div>
 
-            <div class=" w-full relative inline-block col-start-3 col-end-4">
-              <button type="button" id="newDropdownMateri" class=" w-full px-3 py-2 flex justify-between items-center col-start-2 col-end-3 bg-amber-400 rounded-md">Materi<i class="fa-solid fa-chevron-down ml-2"></i></button>
-              <ul id="newListMateri" class=" text-left text-sm hidden absolute left-0 mt-2 border-2 border-white bg-white shadow-md rounded-md">
+            <div class="w-full relative inline-block col-start-3 col-end-4">
+              <button type="button" id="newDropdownMateri" class="w-full px-3 py-2 flex justify-between items-center bg-amber-400 rounded-md">Materi<i class="fa-solid fa-chevron-down ml-2"></i></button>
+              <ul id="newListMateri" class="text-left text-sm hidden absolute left-0 mt-2 border-2 border-white bg-white shadow-md rounded-md">
                 <?php foreach ($rowMateri as $materi) : ?>
                   <li class="p-2 rounded-md hover:cursor-pointer hover:bg-slate-200" data-value="<?= htmlspecialchars($materi['id_materi']); ?>">
                     <?= htmlspecialchars($materi['nama_materi']); ?>
@@ -283,18 +304,23 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
               </ul>
             </div>
 
-            <label for="durasi" class=" px-1 text-sm font-medium text-slate-800">Durasi (menit)</label>
-            <input type="number" name="durasi" id="" placeholder="Durasi..." class="col-span-2 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
+            <!-- Hidden inputs to store selected values -->
+            <input type="hidden" name="selected_pengajar" id="selectedPengajar">
+            <input type="hidden" name="selected_materi" id="selectedMateri">
 
-            <label for="tanggal" class=" px-1 text-sm font-medium text-slate-800">Tanggal</label>
-            <input type="date" name="tanggal" id="" class=" col-start-3  rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
+            <label for="durasi" class="px-1 text-sm font-medium text-slate-800">Durasi (menit)</label>
+            <input type="number" name="durasi" placeholder="Durasi..." class="col-span-2 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
 
-            <button type="button" id="btnCancelEdit" class="px-3 py-3 my-3 col-start-1 col-end-2 border border-slate-400 rounded-md hover:bg-slate-200">Cancel</button>
-            <button type="submit" name="submitEditPassword" class="px-3 py-3 my-3 col-start-2 col-end-4 text-slate-100 bg-blue-700 hover:bg-blue-800 rounded-md ">Tambah</button>
+            <label for="tanggal" class="px-1 text-sm font-medium text-slate-800">Tanggal</label>
+            <input type="date" name="tanggal" class="col-start-3 rounded-md px-4 py-2 mb-3 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400">
+
+            <button type="button" id="btnCancel" class="px-3 py-3 my-3 col-start-1 col-end-2 border border-slate-400 rounded-md hover:bg-slate-200">Cancel</button>
+            <button type="submit" name="submitNewClass" class="px-3 py-3 my-3 col-start-2 col-end-4 text-slate-100 bg-blue-700 hover:bg-blue-800 rounded-md">Tambah</button>
           </form>
         </div>
       </div>
     </section>
+
   </div>
 </body>
 <div class=" w-full">
@@ -302,6 +328,7 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+
     // Get all toggle buttons
     const toggleButtons = document.querySelectorAll('[id^="toggleListPengajar-"]');
     const btnAddClass = document.getElementById('btnAddClass');
@@ -310,11 +337,15 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
     const listMateriNew = document.getElementById('newListMateri');
     const listMentor = document.getElementById('listMentor');
     const listMateri = document.getElementById('listMateri');
-    const btnCloseForm = document.getElementById('btnCancelEdit');
+    const btnCloseForm = document.getElementById('btnCancel');
+
     const btnShowPengajar = document.getElementById('dropdownPengajar');
     const btnShowMateri = document.getElementById('dropdownMateri');
     const btnShowPengajarNew = document.getElementById('newDropdownPengajar');
     const btnShowMateriNew = document.getElementById('newDropdownMateri');
+
+    const selectedPengajarInput = document.getElementById('selectedPengajar');
+    const selectedMateriInput = document.getElementById('selectedMateri');
 
     btnAddClass.addEventListener('click', function() {
       formNewClass.classList.toggle('hidden');
@@ -339,6 +370,28 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
     btnShowMateriNew.addEventListener('click', function() {
       listMateriNew.classList.toggle('hidden');
     })
+
+    // Handle selection of a pengajar
+    listMentorNew.addEventListener('click', function(event) {
+      const item = event.target;
+      if (item.tagName.toLowerCase() === 'li') {
+        const pengajarId = item.getAttribute('data-value');
+        selectedPengajarInput.value = pengajarId;
+        btnShowPengajarNew.innerHTML = item.innerText + ' <i class="fa-solid fa-chevron-down ml-2"></i>';
+        listMentorNew.classList.add('hidden');
+      }
+    });
+
+    // Handle selection of a materi
+    listMateriNew.addEventListener('click', function(event) {
+      const item = event.target;
+      if (item.tagName.toLowerCase() === 'li') {
+        const materiId = item.getAttribute('data-value');
+        selectedMateriInput.value = materiId;
+        btnShowMateriNew.innerHTML = item.innerText + ' <i class="fa-solid fa-chevron-down ml-2"></i>';
+        listMateriNew.classList.add('hidden');
+      }
+    });
 
     toggleButtons.forEach(button => {
       button.addEventListener('click', function() {
