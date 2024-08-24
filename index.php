@@ -30,10 +30,10 @@ $currentDate = date('Y-m-d');
       </div>
       <h3 class="py-4 w-[80%]">Enhance your learning experience by exploring interactive learning platforms. You can unlock a myriad of opportunities to deepen your understanding, foster collaborative learning experiences, and cultivate essential skills.</h3>
       <section class="w-[70%] grid grid-cols-3 gap-3 font-semibold">
-        <button class=" col-span-1 px-3 py-4 rounded-md border border-slate-400">
+        <button class=" col-span-1 px-3 py-4 rounded-md border border-slate-400 hover:bg-slate-200">
           Get Started
         </button>
-        <button class=" col-span-2 rounded-md bg-blue-700 text-amber-400">
+        <button class=" col-span-2 rounded-md bg-blue-700 text-amber-400 hover:bg-blue-800">
           Learning Information
         </button>
       </section>

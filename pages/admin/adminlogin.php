@@ -20,7 +20,15 @@ if (isset($_POST['login'])) {
     $_SESSION['nip'] = $userData['nip'];
     $_SESSION['gender'] = $userData['gender'];
 
-    $_SESSION['role'] == 'admin' ? header("Location: ./admin.php") : header("Location: ../employee/employee.php");
+    // $_SESSION['role'] == 'admin' ? header("Location: ./admin.php") : header("Location: ../employee/employee.php");
+    if ($_SESSION['role'] == 'admin') {
+      header("Location: ./admin.php");
+    } elseif ($_SESSION['role'] == 'employee') {
+      header("Location: ../employee/employee.php");
+    } else {
+      header("Location: ../student/student.php");
+    }
+
   } else {
     $errorMessage = "Username, NIP, atau Password salah !";
   }
@@ -30,9 +38,14 @@ if (isset($_POST['login'])) {
 
 <body class="w-full flex flex-col justify-center bg-slate-50 ">
   <section class="px-6 flex space-x-10 h-screen ">
-    <div class=" w-[60%] h flex flex-col justify-center items-center rounded-md bg-cover bg-bottom">
-      <div class=" w-[70%] bg-cover bg-center">
+    <div class=" w-[60%] flex flex-col justify-center items-center rounded-md bg-cover bg-bottom">
+      <div class="relative w-[70%] bg-cover bg-center">
         <img src="../../assets/login.png" alt="logo-tiara" class=" w-full object-cover">
+        <div class="absolute inset-0 bottom-0 flex justify-end ">
+          <div class=" text-sm text-slate-50 font-semibold">
+            <a href="../../index.php" class=" px-5 py-2 bg-amber-400 hover:bg-amber-500 hover:cursor-pointer rounded-[1.5rem]"> Kembali ke Halaman Utama <i class="fa-solid fa-chevron-right ml-2"></i></a>
+          </div>
+        </div>
       </div>
     </div>
     <div class=" w-[40%] px-6 mx-auto flex flex-col items-center ">
@@ -81,6 +94,6 @@ if (isset($_POST['login'])) {
     </div>
   </section>
 </body>
-<?php 
+<?php
 include '../../includes/footer.php';
 ?>

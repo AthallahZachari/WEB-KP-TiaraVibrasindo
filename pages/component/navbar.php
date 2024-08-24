@@ -8,7 +8,15 @@ if (!isset($_SESSION['current_user']) && !isset($_SESSION['role'])) {
   exit();
 }
 
-$_SESSION['role'] == 'admin' ? $path = "admin" : $path = "employee" ;
+// $_SESSION['role'] == 'admin' ? $path = "admin" : $path = "employee" ;
+
+if ($_SESSION['role'] == 'admin') {
+  $path = "admin";
+} elseif ($_SESSION['role'] == 'employee') {
+  $path = "employee";
+} else {
+  $path = "student";
+}
 
 ?>
 <section class=" w-full h-200px text-slate-800 sticky top-0 m-auto bg-glass-bg backdrop-blur-lg shadow-lg">
