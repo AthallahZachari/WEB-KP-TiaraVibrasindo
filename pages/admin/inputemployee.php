@@ -8,10 +8,28 @@ if (!isset($_SESSION['current_user'])) {
   exit();
 }
 
+// [ PAGINATION ] 
+$limit = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
+$start = ($page > 1) ? ($page * $limit) - $limit : 0; // Hitung offset
+
 $sqlEmployee = "SELECT * FROM admin";
 $queryEmployee = $conn->prepare($sqlEmployee);
 $queryEmployee->execute();
 $rowsEmployee = $queryEmployee->fetchAll(PDO::FETCH_ASSOC);
+
+// [ GET ] Total rows (pagination)
+$sqlCount = "SELECT COUNT(*) as total FROM admin";
+
+$queryCount = $conn->prepare($sqlCount);
+$queryCount->execute();
+$total_rows = $queryCount->fetchColumn();
+
+$total_pages = ceil($total_rows / $limit);
+
+$start_row = $start + 1;
+$end_row = min($start + $limit, $total_rows);
+
 ?>
 
 <body class="min-h-screen w-full">
@@ -26,44 +44,7 @@ $rowsEmployee = $queryEmployee->fetchAll(PDO::FETCH_ASSOC);
     </section>
   </div>
   <div class=" w-full flex px-6 mb-5">
-    <section class="px-5 py-6 mr-5 w-[80%] rounded-lg shadow-xl">
-      <div class=" w-auto mb-3 flex justify-between">
-        <form action="" method="GET" class=" flex items-center">
-          <input type="text" name="searchbox" placeholder="Search..." class=" rounded-tl-md rounded-bl-md px-4 py-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-          <button type="submit" class=" px-4 py-[4.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-        <button id="btnTambahEmployee" class=" px-3 py-[4.7px] text-sm text-white font-semibold rounded-md bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-plus mr-2"></i>Add User</button>
-      </div>
-      <table class="text-sm overflow-x-auto table-auto w-full">
-        <thead>
-          <tr class="border-y-[1.5px] border-y-slate-300">
-            <th class=" text-left px-2 py-3">ID</th>
-            <th class=" text-left px-2 py-3">Nama</th>
-            <th class=" text-left px-2 py-3">Gender</th>
-            <th class=" text-left px-2 py-3">Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if ($queryEmployee->rowCount() > 0) : ?>
-            <?php foreach ($rowsEmployee as $row) : ?>
-              <tr class=" text-slate-600">
-                <td class="px-2 py-2"><?= $row['nip'] ?></td>
-                <td class="px-2 py-2"><?= $row['admin_name'] ?></td>
-                <td class="px-2 py-2"><?= $row['gender'] ?></td>
-                <td class="px-2 py-2"><?= $row['role'] ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else : ?>
-            <tr>
-              <td colspan="12" class="py-2 px-4 text-center text-gray-700">Table Kosong</td>
-            </tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-      <div class=" border-b-[1.5px] border-b-slate-300"></div>
-    </section>
+    <?php include './tables/tblemployee.php';?>
 
     <section id="formAddEmployee" class="w-[40%] rounded-md ">
       <div class="w-full px-5 py-2 shadow-xl rounded-md ">
@@ -88,3 +69,6 @@ $rowsEmployee = $queryEmployee->fetchAll(PDO::FETCH_ASSOC);
   </div>
 
 </body>
+<div class=" w-full">
+  <?php include '../../includes/footer.php'; ?>
+</div>
