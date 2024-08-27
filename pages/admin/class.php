@@ -20,7 +20,7 @@ $searchClass = '';
 // [ GET ] all kelas
 $sqlClass = "SELECT class.*, materi.nama_materi, admin.admin_name 
             FROM class JOIN materi ON class.materi = materi.id_materi 
-            JOIN admin ON class.pengajar = admin.id_admin ";
+            JOIN admin ON class.pengajar = admin.id_admin ORDER BY class.id_class";
 
 // [ GET ] get kelas dari searchbox (jika ada)
 if (isset($_GET['searchbox']) && !empty($_GET['searchbox'])) {
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>dashboard / inputKelas</p>
       </section>
       <section class=" mb-3 text-3xl text-slate-700 font-bold flex justify-between">
-        <h1 class="  text-slate-800 font-bold">Dashboard</h1>
+        <h1 class="  text-slate-800 font-bold">Daftar Kelas</h1>
         <h1 class=" text-2xl">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
       </section>
       

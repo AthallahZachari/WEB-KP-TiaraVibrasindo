@@ -8,6 +8,15 @@ if (!isset($_SESSION['current_user']) && !isset($_SESSION['role'])) {
   exit();
 }
 
+
+$sqlCount = "SELECT COUNT(*) as total FROM class WHERE pengajar = :userID";
+
+$queryCount = $conn->prepare($sqlCount);
+$queryCount->bindParam(":userID", $_SESSION['userID'], PDO::PARAM_INT);
+$queryCount->execute();
+
+$classCount = $queryCount->fetchColumn();
+
 $_SESSION['gender'] == 'pria' ? $icon = "fa-mars text-blue-500" : $icon = "fa-venus text-pink-400";
 $message = '';
 
@@ -94,7 +103,7 @@ if (isset($_SESSION['message'])) {
 
           <label for="reEnterPassword" class=" px-1 text-sm font-medium text-slate-800">Re - enter Password</label>
           <input required type="text" name="reEnterPassword" id="" placeholder="Re - enter Password..." class="col-span-2 rounded-md px-4 py-2 mb-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-          
+
           <button type="button" id="btnCancelEdit" class="px-3 py-3 my-3 col-start-1 col-end-2 border border-slate-400 rounded-md hover:bg-slate-200">Cancel</button>
           <button type="submit" name="submitEditPassword" class="px-3 py-3 my-3 col-start-2 col-end-4 bg-blue-700 rounded-md ">Reset</button>
         </form>
