@@ -30,6 +30,19 @@ $total_pages = ceil($total_rows / $limit);
 $start_row = $start + 1;
 $end_row = min($start + $limit, $total_rows);
 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+  if(isset($_POST['submitNewClass'])){
+    $insertEmployee = $conn->prepare("INSERT INTO `admin` (`admin_name`, `nip`, `password`, `gender`, `role`) VALUES (?, ?, ?, ?, ?)");
+    $insertEmployee->execute([$_POST['nama'], $_POST['nip'], $_POST['password'], $_POST['jenis_kelamin'], $_POST['role']]);
+    
+    if($insertEmployee->rowCount() > 0){
+      $_SESSION['popupMessage'] = "Berhasil Menambahkan Pengguna !";
+      header("Location: ./inputemployee.php");
+      exit();
+    }
+  }
+}
+
 ?>
 
 <body class="min-h-screen w-full">
@@ -43,32 +56,39 @@ $end_row = min($start + $limit, $total_rows);
       <h1 class=" text-2xl">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
     </section>
   </div>
-  <div class=" w-full flex px-6 mb-5">
-    <?php include './tables/tblemployee.php';?>
 
-    <section id="formAddEmployee" class="w-[40%] rounded-md ">
-      <div class="w-full px-5 py-2 shadow-xl rounded-md ">
-        <div class="py-3 border-b-[1.5px] border-b-slate-800">
-          <h1 class="text-3xl text-slate-800 font-bold">Input Nama Baru</h1>
-        </div>
-        <form action="inputmateri.php" method="post" class="my-5 flex flex-col">
-          <input type="text" name="nama_employee" id="inputNamaEmployee" placeholder="Nama..." class="rounded-md px-4 py-2 mb-4 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-          <input type="text" name="nip" id="inputNIP" placeholder="NIP..." class="rounded-md px-4 py-2 mb-4 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-
-          <section class="flex justify-between">
-            <a href="" class="w-[45%] text-center text-lg font-semibold px-8 py-3 border border-slate-300 rounded-md hover:bg-slate-100 transition-all duration-300">
-              Cancel
-            </a>
-            <button type="submit" name="submitNama" class="w-[45%] bg-blue-800 hover:bg-blue-900 text-white text-lg font-semibold px-8 py-3 rounded-md transition-all duration-300">
-              Submit
-            </button>
-          </section>
-        </form>
-      </div>
-    </section>
+  <!-- [ TABLE ] data table user -->
+  <div class=" w-[90%] flex px-6 mb-5">
+    <?php include './tables/tblemployee.php'; ?>
   </div>
 
+  <!-- [ FORM ] Add User baru -->
+  <section id="formAddEmployee" class="hidden fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
+    <?php include './forms/addEmployee.php'; ?>
+  </section>
+
 </body>
+
 <div class=" w-full">
   <?php include '../../includes/footer.php'; ?>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // [ BUTTONS ] button froup
+    const btnAddNew = document.getElementById('btnTambahEmployee');
+    const btnCancel = document.getElementById('btnCancel');
+
+    // [ TARGET ] target object
+    const formAddNew = document.getElementById('formAddEmployee');
+
+    btnAddNew.addEventListener('click', function() {
+      formAddNew.classList.toggle('hidden');
+    })
+
+    btnCancel.addEventListener('click', function() {
+      formAddNew.classList.toggle('hidden');
+    })
+  })
+</script>
