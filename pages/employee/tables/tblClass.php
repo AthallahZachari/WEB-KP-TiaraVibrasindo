@@ -33,12 +33,11 @@
           <td class="text-center ">
             <button id="action-<?= $row['id_class'] ?>" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
             <div id="dropdown-<?= $row['id_class'] ?>" class="dropdown-content hidden absolute mt-1 text-left bg-white border-2 border-white  rounded-md shadow-lg">
-              <button
-                href="#"
-                onclick="toggleEditForm('<?= $row['id_class'] ?>')"
+              <a
+                href="./classDetail.php?id=<?= $row['id_class'] ?>"
                 class="block w-full px-4 py-2 text-sm text-left text-gray-700 rounded-md hover:bg-gray-100">
-                Edit
-              </button>
+                Detail
+              </a>
               <form action="class.php" method="POST">
                 <input type="hidden" name="deleteRow" value="<?= $row['id_class'] ?>">
                 <button type="submit" name="btnDeleteRow" class="px-4 py-2 text-sm text-left text-red-700 rounded-md hover:bg-red-100">Hapus</button>
