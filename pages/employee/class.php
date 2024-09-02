@@ -4,7 +4,7 @@ include '../../includes/connection/connection.php';
 include '../../includes/header.php';
 
 if (!isset($_SESSION['role']) && !isset($_SESSION['current_user'])) {
-  header("Location: ../index.php");
+  header("Location: ../../index.php");
   exit();
 }
 
