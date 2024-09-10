@@ -2,6 +2,7 @@
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
 include '../../includes/connection/admincontrol.php';
+include '../component/utils.php';
 
 if (!isset($_SESSION['current_user'])) {
   header("Location: ../../index.php");

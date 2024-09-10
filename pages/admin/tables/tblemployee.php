@@ -1,3 +1,7 @@
+<?php 
+
+?>
+
 <section class="px-5 py-6 w-full rounded-lg shadow-xl">
   <div class=" w-auto mb-3 flex justify-between">
     <form action="" method="GET" class=" flex items-center">
@@ -14,6 +18,7 @@
         <th class=" text-left px-2 py-3">ID</th>
         <th class=" text-left px-2 py-3">Nama</th>
         <th class=" text-left px-2 py-3">Gender</th>
+        <th class=" text-left px-2 py-3">Password</th>
         <th class=" text-left px-2 py-3">Role</th>
         <th class=" text-left px-2 py-3"></th>
       </tr>
@@ -25,7 +30,8 @@
             <td class="px-2 py-2"><?= $row['nip'] ?></td>
             <td class="px-2 py-2"><?= $row['admin_name'] ?></td>
             <td class="px-2 py-2"><?= $row['gender'] ?></td>
-            <td class="px-2 py-2"><?= $row['role'] ?></td>
+            <td class="px-2 py-2 font-bold"><?= $row['password'] ?></td>
+            <td class="px-2"><p class=" mt-[2px] px-2 py-2 <?= Utils::bgSetter($row['role']) ?> rounded-md"><?= $row['role'] ?></p></td>
             <td class="text-center ">
               <button id="action-<?= $row['id_admin'] ?>" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
               <div id="dropdown-<?= $row['id_admin'] ?>" class="dropdown-content hidden absolute mt-1 text-left bg-white border-2 border-white  rounded-md shadow-lg">

@@ -26,7 +26,7 @@ if (!isset($_SESSION['current_user']) && $_SESSION['role'] != 'admin') {
         <p class=" text-slate-600">Input Materi kursus</p>
       </div>
       <div class=" px-5 py-3 w-[300px] mr-3 border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
-        <a href="./inputemployee.php" class=" text-2xl font-semibold mb-2">Daftar Karyawan dan Trainee<i class=" fa-solid fa-arrow-right-long ml-2 hover:translate-x-1 "></i></a>
+        <a href="./inputemployee.php" class=" text-2xl font-semibold mb-2">Daftar Pengguna<i class=" fa-solid fa-arrow-right-long ml-2 hover:translate-x-1 "></i></a>
         <p class=" text-slate-600">Input Karyawan dan Trainee</p>
       </div>
       <div class=" px-5 py-3 w-[300px] mr-3 border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">

@@ -15,4 +15,16 @@ class Utils
 
     return $randomPassword;
   }
+
+  public static function bgSetter($role){
+    if($role == "admin"){
+      return "bg-red-500 bg-opacity-30 text-red-800";
+    }
+    elseif ($role == "employee") {
+      return "bg-green-500 bg-opacity-30 text-green-800";
+    }
+    else {
+      return "bg-yellow-500 bg-opacity-30 text-yellow-800";
+    }
+  } 
 }
