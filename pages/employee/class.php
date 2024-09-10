@@ -2,6 +2,7 @@
 session_start();
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
+include '../component/pagination.php';
 
 if (!isset($_SESSION['role']) && !isset($_SESSION['current_user'])) {
   header("Location: ../../index.php");

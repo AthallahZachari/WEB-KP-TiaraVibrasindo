@@ -1,11 +1,13 @@
-<div class=" w-auto mb-3 flex justify-between">
+<div class=" w-auto mb-2 flex justify-between">
   <form action="" method="GET" class=" flex items-center">
     <input type="text" name="searchbox" placeholder="Search..." class=" rounded-tl-md rounded-bl-md px-4 py-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-    <button type="submitSearch" class=" px-4 py-[4.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
+    <button type="submitSearch" class=" px-4 py-[8.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
   </form>
-  <button id="btnAddClass" class=" px-4 py-[4.7px] text-white font-semibold rounded-md bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-plus mr-2"></i>New</button>
+  <div>
+    <button id="btnAddClass" class=" px-4 py-[8.7px] text-white font-semibold rounded-md bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-plus mr-2"></i>New</button>
+  </div>
 </div>
 <table class="text-sm overflow-x-auto table-auto w-full">
   <thead>
@@ -44,6 +46,11 @@
   </tbody>
 </table>
 <div class=" border-b-[1.5px] border-b-slate-300"></div>
+
+<!-- PAGINATION -->
+<?php
+echo pagination($page, $total_pages, 'classDetail.php', $start_row, $end_row);
+?>
 
 
 <script>
