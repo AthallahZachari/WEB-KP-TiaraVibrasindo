@@ -9,6 +9,7 @@ if (!isset($_SESSION['current_user'])) {
   exit();
 }
 
+
 // [ PAGINATION ] 
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
@@ -18,6 +19,7 @@ $sqlEmployee = "SELECT * FROM admin";
 $queryEmployee = $conn->prepare($sqlEmployee);
 $queryEmployee->execute();
 $rowsEmployee = $queryEmployee->fetchAll(PDO::FETCH_ASSOC);
+
 
 // [ GET ] Total rows (pagination)
 $sqlCount = "SELECT COUNT(*) as total FROM admin";
@@ -31,7 +33,9 @@ $total_pages = ceil($total_rows / $limit);
 $start_row = $start + 1;
 $end_row = min($start + $limit, $total_rows);
 
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
+  // [ POST ] New Employee/User
   if(isset($_POST['submitNewClass'])){
     $insertEmployee = $conn->prepare("INSERT INTO `admin` (`admin_name`, `nip`, `password`, `gender`, `role`) VALUES (?, ?, ?, ?, ?)");
     $insertEmployee->execute([$_POST['nama'], $_POST['nip'], $_POST['password'], $_POST['jenis_kelamin'], $_POST['role']]);
@@ -39,6 +43,25 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($insertEmployee->rowCount() > 0){
       $_SESSION['popupMessage'] = "Berhasil Menambahkan Pengguna !";
       header("Location: ./inputemployee.php");
+      exit();
+    }
+  }
+
+  // [ UPDATE ] Edit Data User
+  if(isset($_POST['submitEditUser'])){
+    $editEmployee = $conn->prepare(("UPDATE `admin` SET `admin_name` = ?, `nip` = ?, `password` = ?, `gender` = ?, `role` = ? WHERE id_admin = ?"));
+    $editEmployee->execute([
+      $_POST['edit_name'],
+      $_POST['edit_nip'],
+      $_POST['edit_password'],
+      $_POST['edit_gender'],
+      $_POST['edit_role'],
+      $_POST['id_admin']
+    ]);
+
+    if($editEmployee->rowCount() > 0){
+      $_SESSION['popupMessage'] = "Berhasil Mengupdate Data Pengguna !";
+      header('Location: ./inputemployee.php');
       exit();
     }
   }

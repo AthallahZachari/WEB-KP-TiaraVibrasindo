@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 ?>
 
@@ -31,7 +31,9 @@
             <td class="px-2 py-2"><?= $row['admin_name'] ?></td>
             <td class="px-2 py-2"><?= $row['gender'] ?></td>
             <td class="px-2 py-2 font-bold"><?= $row['password'] ?></td>
-            <td class="px-2"><p class=" mt-[2px] px-2 py-2 <?= Utils::bgSetter($row['role']) ?> rounded-md"><?= $row['role'] ?></p></td>
+            <td class="px-2">
+              <p class=" mt-[2px] px-2 py-2 <?= Utils::bgSetter($row['role']) ?> rounded-md"><?= $row['role'] ?></p>
+            </td>
             <td class="text-center ">
               <button id="action-<?= $row['id_admin'] ?>" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
               <div id="dropdown-<?= $row['id_admin'] ?>" class="dropdown-content hidden absolute mt-1 text-left bg-white border-2 border-white  rounded-md shadow-lg">
@@ -46,7 +48,12 @@
                   <button type="submit" name="btnDeleteRow" class="px-4 py-2 text-sm text-left text-red-700 rounded-md hover:bg-red-100">Hapus</button>
                 </form>
               </div>
-
+              
+              <!-- [ FORM ] -->
+              <section id="formEditClass-<?= $row['id_admin'] ?>" class="fixed inset-0 flex z-30 items-center justify-center bg-black bg-opacity-50 text-left hidden">
+                <?php include './forms/editEmployee.php';?>
+              </section>
+            
             </td>
           </tr>
         <?php endforeach; ?>
