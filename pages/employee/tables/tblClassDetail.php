@@ -29,9 +29,10 @@
 
             <button id="action-<?= $row['id_admin'] ?>" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
             <div id="dropdown-<?= $row['id_admin'] ?>" class="dropdown-content hidden absolute mt-1 text-left bg-white border-2 border-white  rounded-md shadow-lg">
-              <form action="class.php" method="POST">
-                <input type="hidden" name="deleteRow" value="<?= $row['id_admin'] ?>">
-                <button type="submit" name="btnDeleteRow" class="px-4 py-2 text-sm text-left text-red-700 rounded-md hover:bg-red-100">Hapus</button>
+              <form action=" " method="POST">
+                <input type="hidden" name="idClass" value="<?= $_SESSION['idClass'] ?>">
+                <input type="hidden" name="student" value="<?= $row['id_admin'] ?>">
+                <button type="submit" name="submitStudent" class="px-4 py-2 text-slate-800 rounded-md hover:bg-slate-200">Tambah</button>
               </form>
             </div>
 
