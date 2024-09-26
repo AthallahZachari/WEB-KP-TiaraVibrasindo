@@ -15,7 +15,7 @@ $rowClass = $classList->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
   <?php include '../component/navbar.php'; ?>
-  <div class=" px-6">
+  <div class=" px-6 h-[90vh]">
     <h1 class="text-3xl text-slate-800 font-bold my-3">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
     <section class=" flex space-x-3">
 
@@ -35,3 +35,4 @@ $rowClass = $classList->fetchAll(PDO::FETCH_ASSOC);
     </section>
   </div>
 </body>
+<?php include '../../includes/footer.php' ?>

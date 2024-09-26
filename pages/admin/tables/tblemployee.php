@@ -48,12 +48,12 @@
                   <button type="submit" name="btnDeleteRow" class="px-4 py-2 text-sm text-left text-red-700 rounded-md hover:bg-red-100">Hapus</button>
                 </form>
               </div>
-              
+
               <!-- [ FORM ] -->
               <section id="formEditClass-<?= $row['id_admin'] ?>" class="fixed inset-0 flex z-30 items-center justify-center bg-black bg-opacity-50 text-left hidden">
-                <?php include './forms/editEmployee.php';?>
+                <?php include './forms/editEmployee.php'; ?>
               </section>
-            
+
             </td>
           </tr>
         <?php endforeach; ?>
@@ -97,4 +97,9 @@
       </a>
     </div>
   </section>
+
+  <!-- PAGINATION -->
+  <?php
+  echo pagination($page, $total_pages, 'inputemployee.php', $start_row, $end_row);
+  ?>
 </section>

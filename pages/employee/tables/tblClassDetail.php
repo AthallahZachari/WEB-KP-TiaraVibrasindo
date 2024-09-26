@@ -6,7 +6,7 @@
     </button>
   </form>
   <div>
-    <button id="btnAddClass" class=" px-4 py-[8.7px] text-white font-semibold rounded-md bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-plus mr-2"></i>New</button>
+    <h1 class=" font-bold text-slate-600">Tambah daftar Peserta</h1>
   </div>
 </div>
 <table class="text-sm overflow-x-auto table-auto w-full">

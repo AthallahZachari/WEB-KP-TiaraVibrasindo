@@ -23,14 +23,20 @@ $_SESSION['materiName'] = $rowDetail['nama_materi'];
 $_SESSION['idClass'] = $rowDetail['id_class'];
 $currentID = $_SESSION['idClass'];
 
-// [ GET ] list murid
+// [ GET ] list semua murid
 $queryStudent = $conn->prepare("SELECT * FROM admin WHERE `role` = ?");
 $queryStudent->execute(['student']);
 $rowStudent = $queryStudent->fetchAll(PDO::FETCH_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+// [ GET ] list murid terdaftar
+$listedStudent = $conn->prepare("SELECT listed_class.*, `admin`.* FROM listed_class JOIN `admin` ON listed_class.id_murid = admin.id_admin WHERE listed_class.id_kelas = ?");
+// $listedStudent = $conn->prepare("SELECT listed_class.*, admin.* FROM listed_class JOIN admin ON listed_class.id_murid = admin.id_admin WHERE listed_class.id_kelas = $id_class");
+$listedStudent->execute([$currentID]);
+$rowListed = $listedStudent->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // [ POST ] Daftarkan murid ke kelas tertentu
-  if(isset($_POST['submitStudent'])){
+  if (isset($_POST['submitStudent'])) {
     $class = $_POST['idClass'];
     $student = $_POST['student'];
 
@@ -65,20 +71,65 @@ $end_row = min($start + $limit, $total_rows);
       <section class=" my-3 text-sm text-blue-800 font-light">
         <p>dashboard / kelas</p>
       </section>
+
       <section class=" text-3xl text-slate-700 font-bold flex justify-between">
-        <h1 class="  text-slate-800 font-bold"><?=$_SESSION['className']?></h1>
+        <h1 class="  text-slate-800 font-bold"><?= $_SESSION['className'] ?></h1>
         <h1 class=" text-2xl">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
       </section>
-      <section class=" mb-3 text-xl text-slate-600 font-bold ">
-        <h1 class="font-bold"><?=$_SESSION['materiName']?></h1>
-        <h1 class=" text-sm font-bold"><?=$_SESSION['idClass']?></h1>
+      <section class=" mb-5 text-xl text-slate-600 font-semibold ">
+        <h1 class="font-bold"><?= $_SESSION['materiName'] ?></h1>
+        <p class=" text-sm text-amber-500">
+          <i class="fa-regular fa-clock mr-2"></i><?= $rowDetail['durasi'] ?> menit
+        </p>
+        <p class=" text-sm">
+          <i class="fa-regular fa-calendar mr-2"></i><?= $rowDetail['tanggal'] ?>
+        </p>
+      </section>
+
+      <section class=" w-[20%] mt-7 mb-3 grid grid-cols-4 font-semibold text-slate-800">
+        <button id="btnClassDetail" class=" border-b-2 border-amber-400 col-span-2 py-3 hover:bg-slate-200 transition duration-100 active-button">Semua Siswa</button>
+        <button id="btnAllStudents" class="  border-amber-400 col-span-2 hover:bg-slate-200 transition duration-100"> Siswa</button>
       </section>
 
       <!-- [ TABLE ] -->
-      <div class=" w-[80%] px-3 py-3 rounded-md shadow-lg">
+      <div id="tableClassDetail" class=" w-[80%] px-3 py-3 rounded-md shadow-lg">
         <?php include './tables/tblClassDetail.php'; ?>
+      </div>
+
+      <!-- [ TABLE ] -->
+      <div id="tableAllStudents" class=" w-[80%] px-3 py-3 rounded-md shadow-lg hidden">
+        <?php include './tables/tblAllStudent.php'; ?>
       </div>
 
     </section>
   </div>
+  <script>
+    // Get buttons and tables
+    const btnClassDetail = document.getElementById('btnClassDetail');
+    const btnAllStudents = document.getElementById('btnAllStudents');
+    const tableClassDetail = document.getElementById('tableClassDetail');
+    const tableAllStudents = document.getElementById('tableAllStudents');
+
+    // Function to remove 'border-b-2' class from both buttons
+    function removeActiveClasses() {
+      btnClassDetail.classList.remove('border-b-2', 'active-btn');
+      btnAllStudents.classList.remove('border-b-2', 'active-btn');
+    }
+
+    // Event listener for "Siswa" button
+    btnClassDetail.addEventListener('click', () => {
+      tableClassDetail.classList.remove('hidden');
+      tableAllStudents.classList.add('hidden');
+      removeActiveClasses();
+      btnClassDetail.classList.add('border-b-2', 'active-btn');
+    });
+
+    // Event listener for "Daftar Siswa" button
+    btnAllStudents.addEventListener('click', () => {
+      tableAllStudents.classList.remove('hidden');
+      tableClassDetail.classList.add('hidden');
+      removeActiveClasses();
+      btnAllStudents.classList.add('border-b-2', 'active-btn');
+    });
+  </script>
 </body>
