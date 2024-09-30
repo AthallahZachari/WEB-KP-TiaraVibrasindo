@@ -6,7 +6,7 @@
 		</button>
 	</form>
 	<div>
-		<h1 class=" font-bold text-slate-600">Daftar Murid</h1>
+		<h1 class=" font-bold text-slate-600">Siswa Kelas Ini</h1>
 	</div>
 </div>
 <table class="text-sm overflow-x-auto table-auto w-full">
