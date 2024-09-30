@@ -133,3 +133,6 @@ $end_row = min($start + $limit, $total_rows);
     });
   </script>
 </body>
+<div class=" w-full">
+  <?php include '../../includes/footer.php'; ?>
+</div>

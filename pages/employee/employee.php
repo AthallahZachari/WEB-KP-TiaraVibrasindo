@@ -13,14 +13,14 @@ $classList->execute([$_SESSION['userID']]);
 $rowClass = $classList->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<body>
+<body class=" bg-[url('../../assets/background.jpg')] bg-cover bg-center">
   <?php include '../component/navbar.php'; ?>
   <div class=" px-6 h-[90vh]">
     <h1 class="text-3xl text-slate-800 font-bold my-3">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
     <section class=" flex space-x-3">
 
       <?php foreach ($rowClass as $row): ?>
-        <div class=" w-[350px] px-4 py-3 rounded-md shadow-md ">
+        <div class=" w-[350px] px-4 py-3 bg-white rounded-md shadow-md ">
           <a href="./classDetail.php?id=<?=$row['id_class']?>" class="block text-2xl text-blue-800 font-bold hover:cursor-pointer hover:underline transition duration-200">
             <?=$row['nama_kelas']?>
           </a>

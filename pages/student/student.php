@@ -9,9 +9,9 @@ if (!isset($_SESSION['current_user']) && !isset($_SESSION['role']) && !isset($_S
 }
 ?>
 
-<body>
+<body class=" bg-[url('../../assets/background.jpg')] bg-cover bg-center">
   <?php include '../component/navbar.php'; ?>
-  <div class=" px-6">
+  <div class=" h-[90vh] px-6">
     <h1 class="text-3xl text-slate-800 font-bold my-3">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
     <section>
       <div class=" w-[300px] px-4 py-3 rounded-md shadow-md">
@@ -21,3 +21,6 @@ if (!isset($_SESSION['current_user']) && !isset($_SESSION['role']) && !isset($_S
     </section>
   </div>
 </body>
+<div class=" w-full">
+  <?php include '../../includes/footer.php'; ?>
+</div>

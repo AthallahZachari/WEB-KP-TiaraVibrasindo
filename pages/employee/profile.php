@@ -40,10 +40,10 @@ if (isset($_SESSION['message'])) {
 }
 ?>
 
-<body class=" w-full ">
+<body class=" bg-[url('../../assets/background.jpg')] bg-cover bg-center">
   <?php include '../component/navbar.php'; ?>
-  <div class="min-h-screen flex flex-col">
-    <section class=" w-[50%] mx-auto mt-16 px-6 py-6 rounded-md shadow-md flex flex-col space-y-7 items-center">
+  <div class="min-h-[90vh] flex flex-col">
+    <section class=" w-[50%] mx-auto mt-16 px-6 py-6 bg-white rounded-md shadow-md flex flex-col space-y-7 items-center">
       <section class="flex flex-col items-center">
 
         <div class=" bg-slate-200 w-16 h-16 mb-3 rounded-[50%] flex justify-center items-center">
@@ -120,6 +120,9 @@ if (isset($_SESSION['message'])) {
     </p>
   </div>
 </body>
+<div class=" w-full">
+  <?php include '../../includes/footer.php'; ?>
+</div>
 <script>
   document.getElementById('btnEditProfile').addEventListener('click', () => {
     document.getElementById('formEditPassword').classList.toggle('hidden');

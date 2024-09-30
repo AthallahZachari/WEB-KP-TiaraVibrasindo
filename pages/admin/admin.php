@@ -10,7 +10,7 @@ if (!isset($_SESSION['current_user']) && $_SESSION['role'] != 'admin') {
 
 ?>
 
-<body class=" w-full ">
+<body class=" bg-[url('../../assets/background.jpg')] bg-cover bg-center">
   <?php include '../component/navbar.php'; ?>
   <div class=" px-6 min-h-screen">
     <section class=" mt-3 text-sm text-blue-800 font-light">
@@ -21,15 +21,15 @@ if (!isset($_SESSION['current_user']) && $_SESSION['role'] != 'admin') {
       <h1 class=" text-2xl">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
     </section>
     <section class=" flex py-3">
-      <div class=" px-5 py-3 w-[300px] mr-3 border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
+      <div class=" px-5 py-3 w-[300px] mr-3 bg-white border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
         <a href="./inputmateri.php" class=" text-2xl font-semibold mb-2">Daftar Materi <i class=" fa-solid fa-arrow-right-long ml-2 hover:translate-x-1 "></i></a>
         <p class=" text-slate-600">Input Materi kursus</p>
       </div>
-      <div class=" px-5 py-3 w-[300px] mr-3 border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
+      <div class=" px-5 py-3 w-[300px] mr-3 bg-white border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
         <a href="./inputemployee.php" class=" text-2xl font-semibold mb-2">Daftar Pengguna<i class=" fa-solid fa-arrow-right-long ml-2 hover:translate-x-1 "></i></a>
         <p class=" text-slate-600">Input Karyawan dan Trainee</p>
       </div>
-      <div class=" px-5 py-3 w-[300px] mr-3 border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
+      <div class=" px-5 py-3 w-[300px] mr-3 bg-white border border-slate-300 rounded-md hover:bg-slate-100 hover:cursor-pointer">
         <h3 class=" text-2xl font-semibold mb-2">Input Materi <i class=" fa-solid fa-arrow-right-long ml-2 hover:translate-x-1 "></i></h3>
         <p class=" text-slate-600">Input Materi ini deksripsi dari ini materi input</p>
       </div>
