@@ -35,3 +35,8 @@
 	</tbody>
 </table>
 <div class=" border-b-[1.5px] border-b-slate-300"></div>
+
+<!-- PAGINATION -->
+<?php
+echo pagination($this_page, $this_total_pages, 'classDetail.php?id='.$id_class, $this_start_row, $this_end_row);
+?>

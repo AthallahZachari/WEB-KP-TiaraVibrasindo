@@ -23,7 +23,7 @@ $currentDate = date('Y-m-d');
     </nav>
   </section>
 
-  <section class="px-6 h-[80vh] grid grid-cols-2 gap-4">
+  <section class="px-6 h-[90vh] grid grid-cols-2 gap-4">
     <div class=" w-full pt-10">
       <div class=" w-[50%] py-6">
         <h1 class=" text-5xl font-semibold m-0 p-0">Enhance Your Learning Experience</h1>

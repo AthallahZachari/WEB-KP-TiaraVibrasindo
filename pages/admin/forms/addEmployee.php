@@ -49,7 +49,6 @@ $password = Utils::randPassword(8);
 
     // Get all toggle buttons
     const toggleButtons = document.querySelectorAll('[id^="toggleListPengajar-"]');
-    const btnAddClass = document.getElementById('btnAddClass');
     const formNewClass = document.getElementById('formAddClass');
     const listMentorNew = document.getElementById('newListMentor');
     const listMateriNew = document.getElementById('newListMateri');

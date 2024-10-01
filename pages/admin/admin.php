@@ -12,7 +12,7 @@ if (!isset($_SESSION['current_user']) && $_SESSION['role'] != 'admin') {
 
 <body class=" bg-[url('../../assets/background.jpg')] bg-cover bg-center">
   <?php include '../component/navbar.php'; ?>
-  <div class=" px-6 min-h-screen">
+  <div class=" px-6 min-h-[90vh]">
     <section class=" mt-3 text-sm text-blue-800 font-light">
       <p>dashboard /</p>
     </section>

@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-// [ PAGINATION ] 
-$limit = 10;
+// [ PAGINATION ] Semua siswa 
+$limit = 5;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $start = ($page > 1) ? ($page * $limit) - $limit : 0;
 
@@ -61,6 +61,19 @@ $total_pages = ceil($total_rows / $limit);
 $start_row = $start + 1;
 $end_row = min($start + $limit, $total_rows);
 
+// [ PAGINATION ] Siswa Kelas Ini
+$this_limit = 10;
+$this_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$this_start = ($this_page > 1) ? ($this_page * $this_limit) - $this_limit : 0;
+
+$sqlCountListed = $conn->prepare("SELECT COUNT(*) as total_listed FROM listed_class WHERE id_kelas = ?");
+$sqlCountListed->execute([$currentID]);
+$totalListed = $sqlCountListed->fetchColumn();
+
+$this_total_pages = ceil($totalListed / $this_limit);
+
+$this_start_row = $this_start + 1;
+$this_end_row = min($this_start + $this_limit, $totalListed);
 
 ?>
 

@@ -50,7 +50,7 @@
 
 <!-- PAGINATION -->
 <?php
-echo pagination($page, $total_pages, 'classDetail.php', $start_row, $end_row);
+echo pagination($page, $total_pages, 'classDetail.php?id='.$id_class, $start_row, $end_row);
 ?>
 
 
