@@ -76,7 +76,7 @@ $rowMentor = $queryMentor->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['submitNewClass'])) {
     $insertClass = $conn->prepare("INSERT INTO `class` (`nama_kelas`, `pengajar`, `materi`, `ruangan`, `durasi`, `tanggal`) VALUES (?, ?, ?, ?, ?, ?)");
-    $insertClass->execute([$_POST['nama_kelas'], $_POST['selected_pengajar'], $_POST['selected_materi'], $_POST['ruangan'], $_POST['durasi'], $_POST['tanggal']]);
+    $insertClass->execute([$_POST['class'], $_POST['selectedPengajar'], $_POST['selectedMateri'], $_POST['ruangan'], $_POST['durasi'], $_POST['tanggal']]);
 
     if ($insertClass->rowCount() > 0) {
       $_SESSION['popupMessage'] = "Berhasil Menambahkan Kelas !";
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   if(isset($_POST['btnDelete'])){
-    $deleteRow = $conn->prepare('DELETE FROM class WHERE id_class = ?');
+    $deleteRow = $conn->prepare('DELETE FROM class WHERE class.id_class = ?');
     $deleteRow->execute([$_POST['deleteRow']]);
 
     header('Location: ./class.php');
@@ -121,8 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <!-- TABLE -->
       <div class=" w-full p-3 rounded-md shadow-lg">
-        <?php //include './tables/tblclass.php'; ?>
-        <?php include './tables/tblClassNew.php'; ?>
+        <?php include './tables/tblClass.php'; ?>
       </div>
 
     </section>
