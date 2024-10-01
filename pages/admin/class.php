@@ -84,6 +84,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit();
     }
   }
+
+  if(isset($_POST['submitEditClass'])){
+    $updateClass = $conn->prepare("UPDATE class SET nama_kelas = ?, pengajar = ?, materi = ?, ruangan = ?, durasi = ? WHERE class.id_class = ?");
+    $updateClass->execute([$_POST['nama_class'], $_POST['selected_pengajar'], $_POST['selected_materi'], $_POST['edit_ruangan'], $_POST['edit_durasi'], $_POST['id']]);
+
+    if($updateClass->rowCount() > 0){
+      $_SESSION['popupMessage'] = "Berhasil mengedit kelas !";
+      header('Location: ./class.php');
+      exit();
+    }
+  }
+
+  if(isset($_POST['btnDelete'])){
+    $deleteRow = $conn->prepare('DELETE FROM class WHERE id_class = ?');
+    $deleteRow->execute([$_POST['deleteRow']]);
+
+    header('Location: ./class.php');
+    exit();
+  }
 }
 
 ?>

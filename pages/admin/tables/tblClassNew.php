@@ -44,14 +44,14 @@
 						<div id="menuOption-<?= $row['id_class'] ?>" class="hidden absolute mt-1 text-left bg-white border-2 border-white  rounded-md shadow-lg">
 							<!-- [ BUTTON ] Edit Row-->
 							<button
-								id="btntoggleForm-<?=$row['id_class']?>"
+								id="btntoggleForm-<?= $row['id_class'] ?>"
 								class="btntoggleForm block w-full px-4 py-2 text-sm text-left text-gray-700 rounded-md hover:bg-gray-100">
 								Edit
 							</button>
 
 							<!-- [ BUTTON ] Delete Row-->
 							<form action="class.php" method="POST">
-								<input type="hidden" name="delelteRrowId" value="<?= $row['id_class'] ?>">
+								<input type="hidden" name="deleteRow" value="<?= $row['id_class'] ?>">
 								<button
 									type="submit"
 									name="btnDelete"
@@ -70,10 +70,10 @@
 										</div>
 									</div>
 									<form action="" method="POST" id="formEdit" class=" grid grid-cols-3 gap-2 py-5">
-										<input type="hidden" name="edit_id_class" id="edit_id_class" value="<?= $row['id_class'] ?>">
+										<input type="hidden" name="id" id="id" value="<?= $row['id_class'] ?>">
 
 										<label for="edit_class" class=" mb-2 block text-sm font-medium text-gray-700">Nama Kelas</label>
-										<input type="text" name="edit_class" id="edit_class" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
+										<input type="text" name="nama_class" id="nama_class" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
 
 										<label for="edit_ruangan" class=" mb-2 block text-sm font-medium text-gray-700">Ruangan</label>
 										<input type="text" name="edit_ruangan" id="edit_ruangan" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
@@ -97,6 +97,8 @@
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</ul>
+											<!-- DROPDOWN Input Handler -->
+											<input type="hidden" name="selected_pengajar" id="selectedPengajar-<?= $row['id_class'] ?>">
 										</div>
 
 										<!-- [ BUTTON ] Dropdown Materi -->
@@ -114,6 +116,8 @@
 													</li>
 												<?php endforeach; ?>
 											</ul>
+											<!-- DROPDOWN Input Handler -->
+											<input type="hidden" name="selected_materi" id="selectedMateri-<?= $row['id_class'] ?>">
 										</div>
 
 										<label for="edit_durasi" class=" mb-2 block text-sm font-medium text-gray-700">Durasi</label>
@@ -121,14 +125,13 @@
 
 										<button
 											type="button"
-											id="btnCancel-<?=$row['id_class']?>"
-											class="btnCancel px-4 py-3 mr-3 col-start-1 col-end-2 border border-gray-300 rounded-md text-slate-600 hover:bg-gray-100"
-											>
+											id="btnCancel-<?= $row['id_class'] ?>"
+											class="btnCancel px-4 py-3 mr-3 col-start-1 col-end-2 border border-gray-300 rounded-md text-slate-600 hover:bg-gray-100">
 											Cancel
 										</button>
 										<button
 											type="submit"
-											name="submitEditMateri"
+											name="submitEditClass"
 											class=" px-4 py-3 col-start-2 col-end-4 bg-blue-700 text-white rounded-md hover:bg-blue-800">
 											Save
 										</button>
@@ -158,27 +161,60 @@
 		})
 	})
 
+
+	// [ DROPDOWN ] pengajar
 	document.querySelectorAll(`.dropPengajar`).forEach(button => {
 		button.addEventListener('click', function(event) {
 			const classID = this.id.split('-')[1];
 			const dropdown = document.getElementById(`listMentor-${classID}`);
 			dropdown.classList.toggle('hidden');
+
+			//Handle selected input
+			dropdown.querySelectorAll('li').forEach(item => {
+				item.addEventListener('click', function() {
+					const selectedValue = this.getAttribute('data-value');
+					const selectedText = this.textContent;
+
+					button.innerHTML = `${selectedText}<i class="fa-solid fa-chevron-down ml-2"></i>`;
+					dropdown.classList.toggle('hidden');
+
+					// Update input hidden dengan nilai pengajar yang dipilih
+					document.getElementById(`selectedPengajar-${classID}`).value = selectedValue;
+				})
+			})
 		})
 	})
 
+	// [ DROPDOWN ] materi
 	document.querySelectorAll(`.dropMateri`).forEach(button => {
 		button.addEventListener('click', function(event) {
 			const classID = this.id.split('-')[1];
 			const dropdown = document.getElementById(`listMateri-${classID}`)
 			dropdown.classList.toggle('hidden');
+
+			// Handle Selected Input
+			dropdown.querySelectorAll('li').forEach(item => {
+				item.addEventListener('click', function() {
+					const selectedValue = this.getAttribute('data-value');
+					const selectedText = this.textContent;
+
+					button.innerHTML = `${selectedText}<i class="fa-solid fa-chevron-down ml-2"></i>`;
+					dropdown.classList.toggle('hidden');
+
+					document.getElementById(`selectedMateri-${classID}`).value = selectedValue;
+				})
+			})
 		})
 	})
 
+	// [ TOGGLE ] Edit form
 	document.querySelectorAll(`.btntoggleForm`).forEach(button => {
 		button.addEventListener('click', function(event) {
 			const classID = this.id.split('-')[1];
 			const dropdown = document.getElementById(`toggleFormEdit-${classID}`);
 			dropdown.classList.toggle('hidden');
+
+			
 		})
 	})
 
