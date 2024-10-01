@@ -86,9 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+
 ?>
 
-<body class=" w-full">
+<body class=" w-full ">
   <?php include '../component/navbar.php'; ?>
   <div class=" px-6 flex h-[100vh]">
     <section class=" w-full">
@@ -96,16 +97,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>dashboard / inputKelas</p>
       </section>
       <section class=" mb-3 text-3xl text-slate-700 font-bold flex justify-between">
-        <h1 class=" text-slate-800 font-bold">Daftar Kelas</h1>
-        <h1 class=" text-2xl">Welcome back, <?= $_SESSION['current_user'] ?></h1>
+        <h1 class="  text-slate-800 font-bold">Daftar Kelas</h1>
+        <h1 class=" text-2xl">Welcome back, <?= $_SESSION['current_user'] ?> !</h1>
       </section>
 
-      <!-- TABLE -->
-      <div class=" w-full p-3 rounded-md shadow-lg">
-        <?php //include './tables/tblclass.php'; ?>
-        <?php include './tables/tblClassNew.php'; ?>
+      <!-- [ TABLE ] -->
+      <div class=" w-full px-3 py-3 rounded-md shadow-lg">
+        <?php include './tables/tblclass.php'; ?>
       </div>
-
     </section>
+
+    <!-- [ FORM ] Add kelas baru -->
+    <section id="formAddClass" class="hidden fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
+      <?php include './forms/addclass.php'; ?>
+    </section>
+
   </div>
 </body>
+<div class=" w-full">
+  <?php include '../../includes/footer.php'; ?>
+</div>
