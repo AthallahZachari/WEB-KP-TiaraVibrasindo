@@ -2,6 +2,7 @@
 session_start();
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
+include '../component/pagination.php';
 
 if (!isset($_SESSION['role']) && !isset($_SESSION['current_user'])) {
   header("Location: ../../index.php");
@@ -121,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <!-- TABLE -->
       <div class=" w-full p-3 rounded-md shadow-lg">
-        <?php include './tables/tblClass.php'; ?>
+        <?php include './tables/tblClassNew.php'; ?>
       </div>
 
     </section>
