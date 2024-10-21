@@ -2,6 +2,7 @@
 session_start();
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
+include './model.php';
 
 if (!isset($_SESSION['current_user']) && !isset($_SESSION['role']) && !isset($_SESSION['gender'])) {
   header("Location: ../../index.php");
@@ -20,7 +21,6 @@ $classList = $conn->prepare("
   INNER JOIN materi ON materi.id_materi = class.materi
   WHERE listed_class.id_murid = ?");
 $classList->execute([$_SESSION['userID']]);
-
 
 ?>
 

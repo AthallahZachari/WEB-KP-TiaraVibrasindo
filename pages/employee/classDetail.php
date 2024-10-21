@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../../includes/connection/connection.php';
+include '../../includes/header.php';
 include '../component/pagination.php';
 
 if (!isset($_SESSION['role']) && !isset($_SESSION['current_user'])) {
@@ -30,9 +31,21 @@ $rowStudent = $queryStudent->fetchAll(PDO::FETCH_ASSOC);
 
 // [ GET ] list murid terdaftar
 $listedStudent = $conn->prepare("SELECT listed_class.*, `admin`.* FROM listed_class JOIN `admin` ON listed_class.id_murid = admin.id_admin WHERE listed_class.id_kelas = ?");
-// $listedStudent = $conn->prepare("SELECT listed_class.*, admin.* FROM listed_class JOIN admin ON listed_class.id_murid = admin.id_admin WHERE listed_class.id_kelas = $id_class");
 $listedStudent->execute([$currentID]);
 $rowListed = $listedStudent->fetchAll(PDO::FETCH_ASSOC);
+
+// [ GET ] list abesn murid
+$attendanceList = $conn->prepare(
+  "SELECT admin.admin_name, 
+  COALESCE(attendance.status, 'absent') as status 
+  FROM listed_class 
+  JOIN admin ON admin.id_admin = listed_class.id_murid 
+  LEFT JOIN attendance ON attendance. student_id = admin.id_admin 
+  AND attendance.class_id = listed_class.id_kelas 
+  WHERE listed_class.id_kelas = ?"
+);
+$attendanceList->execute([$currentID]);
+$rowAttendance = $attendanceList->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // [ POST ] Daftarkan murid ke kelas tertentu
@@ -79,7 +92,7 @@ $this_end_row = min($this_start + $this_limit, $totalListed);
 
 <body class=" w-full">
   <?php include '../component/navbar.php'; ?>
-  <div class=" px-6 h-[100vh]">
+  <div class=" px-6 min-h-[100vh]">
     <section class=" w-full">
       <section class=" my-3 text-sm text-blue-800 font-light">
         <p>dashboard / kelas</p>
@@ -99,9 +112,10 @@ $this_end_row = min($this_start + $this_limit, $totalListed);
         </p>
       </section>
 
-      <section class=" w-[20%] mt-7 mb-3 grid grid-cols-4 font-semibold text-slate-800">
+      <section class=" w-[25%] mt-7 mb-3 grid grid-cols-6 font-semibold text-slate-800">
         <button id="btnClassDetail" class=" border-b-2 border-amber-400 col-span-2 py-3 hover:bg-slate-200 transition duration-100 active-button">Semua Siswa</button>
         <button id="btnAllStudents" class="  border-amber-400 col-span-2 hover:bg-slate-200 transition duration-100"> Siswa</button>
+        <button id="btnAttendance" class="  border-amber-400 col-span-2 hover:bg-slate-200 transition duration-100"> Attendance</button>
       </section>
 
       <!-- [ TABLE ] -->
@@ -114,25 +128,34 @@ $this_end_row = min($this_start + $this_limit, $totalListed);
         <?php include './tables/tblAllStudent.php'; ?>
       </div>
 
+      <!-- [ TABLE ] -->
+      <div id="tableAtttendance" class=" w-[80%] px-3 py-3 rounded-md shadow-lg hidden">
+        <?php include './tables/tblAttendance.php'; ?>
+      </div>
+
     </section>
   </div>
   <script>
     // Get buttons and tables
     const btnClassDetail = document.getElementById('btnClassDetail');
     const btnAllStudents = document.getElementById('btnAllStudents');
+    const btnAttendance = document.getElementById('btnAttendance');
     const tableClassDetail = document.getElementById('tableClassDetail');
     const tableAllStudents = document.getElementById('tableAllStudents');
+    const tableClassAttendance = document.getElementById('tableAtttendance');
 
     // Function to remove 'border-b-2' class from both buttons
     function removeActiveClasses() {
       btnClassDetail.classList.remove('border-b-2', 'active-btn');
       btnAllStudents.classList.remove('border-b-2', 'active-btn');
+      btnAttendance.classList.remove('border-b-2', 'active-btn');
     }
 
     // Event listener for "Siswa" button
     btnClassDetail.addEventListener('click', () => {
       tableClassDetail.classList.remove('hidden');
       tableAllStudents.classList.add('hidden');
+      tableClassAttendance.classList.add('hidden');
       removeActiveClasses();
       btnClassDetail.classList.add('border-b-2', 'active-btn');
     });
@@ -141,9 +164,21 @@ $this_end_row = min($this_start + $this_limit, $totalListed);
     btnAllStudents.addEventListener('click', () => {
       tableAllStudents.classList.remove('hidden');
       tableClassDetail.classList.add('hidden');
+      tableClassAttendance.classList.add('hidden');
       removeActiveClasses();
       btnAllStudents.classList.add('border-b-2', 'active-btn');
     });
+
+    // Event listener for "Attendance" button
+    btnAttendance.addEventListener('click', () => {
+      tableClassAttendance.classList.remove('hidden');
+      tableAllStudents.classList.add('hidden');
+      tableClassDetail.classList.add('hidden');
+      removeActiveClasses();
+      btnAttendance.classList.add('border-b-2', 'active-btn');
+    });
+
+
   </script>
 </body>
 <div class=" w-full">
