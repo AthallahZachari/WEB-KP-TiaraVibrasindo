@@ -20,9 +20,23 @@
   <tbody>
     <?php if ($attendanceList->rowCount() > 0) : ?>
       <?php foreach ($rowAttendance as $list) : ?>
+        <?php $bgColor = $list['status'] == 'present' ? "bg-green-400 text-green-900" : "bg-red-500 text-red-900"; ?>
         <tr>
-          <td class=" p-2"><?= $list['admin_name'] ?></td>
-          <td class=" p-2"><?= $list['status'] ?></td>
+          <td class=" p-2">
+            <div class=" flex items-center">
+              <div class=" px-3 py-2 mr-3 rounded-[50%] bg-slate-200 text-center">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div class="">
+                <p class=" font-bold"><?= $list['admin_name'] ?></p>
+                <p class=" text-slate-400"><?= $list['nip'] ?></p>
+              </div>
+            </div>
+          </td>
+          <td class=" p-2"><p class=" p-2 <?= $bgColor?> rounded-md"><?= $list['status'] ?></p></td>
+          <td class=" p-2">
+            <button id="" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
+          </td>
         </tr>
       <?php endforeach; ?>
     <?php else : ?>
