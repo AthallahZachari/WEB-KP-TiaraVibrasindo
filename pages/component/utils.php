@@ -27,4 +27,18 @@ class Utils
       return "bg-yellow-500 bg-opacity-30 text-yellow-800";
     }
   } 
+
+  public static function bgAttendance($status){
+    if($status == "present"){
+      return "bg-green-500 bg-opacity-30 text-green-800";
+    }
+    else{
+      return "bg-red-500 bg-opacity-30 text-red-800";
+    }
+  }
+
+  public static function readTime($time){
+    $readTime = new DateTime($time);
+    return $readTime->format('H:i');
+  }
 }

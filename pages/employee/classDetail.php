@@ -2,6 +2,7 @@
 session_start();
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
+include '../component/utils.php';
 include '../component/pagination.php';
 
 if (!isset($_SESSION['role']) && !isset($_SESSION['current_user'])) {
@@ -36,7 +37,7 @@ $rowListed = $listedStudent->fetchAll(PDO::FETCH_ASSOC);
 
 // [ GET ] list abesn murid
 $attendanceList = $conn->prepare(
-  "SELECT admin.*,
+  "SELECT admin.*, attendance.*,
   COALESCE(attendance.status, 'absent') as status 
   FROM listed_class 
   JOIN admin ON admin.id_admin = listed_class.id_murid 
@@ -129,7 +130,7 @@ $this_end_row = min($this_start + $this_limit, $totalListed);
       </div>
 
       <!-- [ TABLE ] -->
-      <div id="tableAtttendance" class=" w-[60%] px-3 py-3 rounded-md shadow-lg hidden">
+      <div id="tableAtttendance" class=" w-[60%] px-3 py-3 mb-5 rounded-md shadow-lg hidden">
         <?php include './tables/tblAttendance.php'; ?>
       </div>
 

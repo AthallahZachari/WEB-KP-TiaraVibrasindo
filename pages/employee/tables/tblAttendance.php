@@ -14,13 +14,13 @@
     <tr class="border-y-[1.5px] border-y-slate-300 text-slate-800">
       <th class=" text-left px-2 py-3">Nama</th>
       <th class=" text-left px-2 py-3">Status</th>
+      <th class=" text-left px-2 py-3">Waktu</th>
       <th class=" text-center px-2 py-3 w-[50px]"></th>
     </tr>
   </thead>
   <tbody>
     <?php if ($attendanceList->rowCount() > 0) : ?>
       <?php foreach ($rowAttendance as $list) : ?>
-        <?php $bgColor = $list['status'] == 'present' ? "bg-green-400 text-green-900" : "bg-red-500 text-red-900"; ?>
         <tr>
           <td class=" p-2">
             <div class=" flex items-center">
@@ -28,12 +28,13 @@
                 <i class="fa-solid fa-user"></i>
               </div>
               <div class="">
-                <p class=" font-bold"><?= $list['admin_name'] ?></p>
+                <p class=" font-bold text-slate-800"><?= $list['admin_name'] ?></p>
                 <p class=" text-slate-400"><?= $list['nip'] ?></p>
               </div>
             </div>
           </td>
-          <td class=" p-2"><p class=" p-2 <?= $bgColor?> rounded-md"><?= $list['status'] ?></p></td>
+          <td class=" p-2"><p class=" p-2 <?= Utils::bgAttendance($list['status']) ?> rounded-md"><?= $list['status'] ?></p></td>
+          <td class=" p-2"><p class=" text-amber-600"><i class="fa-regular fa-clock mr-1"></i><?=Utils::readTime($list['time'])?></p></td>
           <td class=" p-2">
             <button id="" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
           </td>

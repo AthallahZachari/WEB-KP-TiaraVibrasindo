@@ -21,7 +21,7 @@
 	<tbody>
 		<?php if ($listedStudent->rowCount() > 0) : ?>
 			<?php foreach ($rowListed as $list) : ?>
-				<tr>
+				<tr class=" text-slate-600">
 					<td class=" p-2"><?= $list['admin_name'] ?></td>
 					<td class=" p-2"><?= $list['nip'] ?></td>
 					<td class=" p-2"><?= $list['gender'] ?></td>
