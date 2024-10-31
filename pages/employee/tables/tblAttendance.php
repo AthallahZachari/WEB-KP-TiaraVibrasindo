@@ -1,7 +1,7 @@
 <div class="w-auto mb-2 flex justify-between">
   <form action="" method="GET" class="flex items-center">
     <input type="text" name="searchbox" placeholder="Search..." class=" rounded-tl-md rounded-bl-md px-4 py-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-    <button type="submitSearch" class=" px-4 py-[8.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
+    <button type="submitSearch" class=" px-4 py-[4.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
   </form>
@@ -33,9 +33,9 @@
               </div>
             </div>
           </td>
-          <td class=" p-2"><p class=" p-2 <?= Utils::bgAttendance($list['status']) ?> rounded-md"><?= $list['status'] ?></p></td>
-          <td class=" p-2"><p class=" text-amber-600"><i class="fa-regular fa-clock mr-1"></i><?=Utils::readTime($list['time'])?></p></td>
-          <td class=" p-2">
+          <td class=" px-2"><p class=" p-2 <?= Utils::bgAttendance($list['status']) ?> rounded-md"><?= $list['status'] ?></p></td>
+          <td class=""><p class=" text-amber-600"><i class="fa-regular fa-clock mr-1"></i><?=Utils::readTime($list['time'])?></p></td>
+          <td class="">
             <button id="" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>
           </td>
         </tr>
@@ -47,3 +47,9 @@
     <?php endif; ?>
   </tbody>
 </table>
+<div class=" border-b-[1.5px] border-b-slate-300"></div>
+
+<!-- PAGINATION -->
+<?php
+echo pagination($att_page, $att_total_pages, 'classDetail.php?id=' . $id_class, $att_start_row, $att_end_row, 3);
+?>

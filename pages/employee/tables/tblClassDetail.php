@@ -1,7 +1,7 @@
 <div class=" w-auto mb-2 flex justify-between">
   <form action="" method="GET" class=" flex items-center">
     <input type="text" name="searchbox" placeholder="Search..." class=" rounded-tl-md rounded-bl-md px-4 py-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
-    <button type="submitSearch" class=" px-4 py-[8.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
+    <button type="submitSearch" class=" px-4 py-[4.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
   </form>
@@ -50,7 +50,7 @@
 
 <!-- PAGINATION -->
 <?php
-echo pagination($page, $total_pages, 'classDetail.php?id='.$id_class, $start_row, $end_row);
+echo pagination($page, $total_pages, 'classDetail.php?id='.$id_class, $start_row, $end_row, 1);
 ?>
 
 
