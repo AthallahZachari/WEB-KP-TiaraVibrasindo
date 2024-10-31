@@ -1,23 +1,24 @@
 <?php
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
-include '../../includes/connection/admincontrol.php';
 include '../component/utils.php';
 include '../component/pagination.php';
+session_start();
 
 if (!isset($_SESSION['current_user'])) {
   header("Location: ../../index.php");
   exit();
 }
 
-
 // [ PAGINATION ] 
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
 $start = ($page > 1) ? ($page * $limit) - $limit : 0; // Hitung offset
 
-$sqlEmployee = "SELECT * FROM admin";
+$sqlEmployee = "SELECT * FROM admin LIMIT :limit OFFSET :offset";
 $queryEmployee = $conn->prepare($sqlEmployee);
+$queryEmployee->bindValue(':limit', $limit, PDO::PARAM_INT);
+$queryEmployee->bindValue(':offset', $start, PDO::PARAM_INT);
 $queryEmployee->execute();
 $rowsEmployee = $queryEmployee->fetchAll(PDO::FETCH_ASSOC);
 

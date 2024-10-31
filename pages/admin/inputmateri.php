@@ -1,9 +1,9 @@
 <?php
 include '../../includes/connection/connection.php';
 include '../../includes/header.php';
-include '../../includes/connection/admincontrol.php';
+session_start();
 
-if (!isset($_SESSION['current_user'])) {
+if (!isset($_SESSION['current_user']) && $_SESSION['role'] != 'admin') {
   header("Location: ../../index.php");
   exit();
 }

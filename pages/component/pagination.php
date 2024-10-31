@@ -1,12 +1,16 @@
 <?php
-function pagination($page, $total_pages, $base_url, $total_rows, $end_row, $current_table)
+function pagination($page, $total_pages, $base_url, $total_rows, $end_row, $current_table = null)
 {
   ob_start();
 
   // Parse URL untuk mendapatkan parameter yang ada
   $url_components = parse_url($base_url);
-  parse_str($url_components['query'], $params); // Mendapatkan query string ke array
-  $params['table'] = $current_table; // Menambahkan parameter baru
+  parse_str($url_components['query'] ?? '', $params); // Mendapatkan query string ke array
+
+  // Tambahkan parameter `table` jika $current_table ada
+  if ($current_table !== null) {
+    $params['table'] = $current_table;
+  }
 
 ?>
   <section class="mt-2 py-2 flex justify-between items-center">

@@ -1,7 +1,6 @@
 <?php
 include '../../includes/header.php';
 include '../../includes/connection/connection.php';
-include '../../includes/connection/admincontrol.php';
 
 $errorMessage = "";
 
@@ -20,7 +19,6 @@ if (isset($_POST['login'])) {
     $_SESSION['nip'] = $userData['nip'];
     $_SESSION['gender'] = $userData['gender'];
 
-    // $_SESSION['role'] == 'admin' ? header("Location: ./admin.php") : header("Location: ../employee/employee.php");
     if ($_SESSION['role'] == 'admin') {
       header("Location: ./admin.php");
     } elseif ($_SESSION['role'] == 'employee') {
