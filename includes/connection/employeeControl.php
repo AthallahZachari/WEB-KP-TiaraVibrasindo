@@ -40,7 +40,7 @@ $rowStudent = $queryStudent->fetchAll(PDO::FETCH_ASSOC);
 
 
 // [ PAGINATION ] Siswa Kelas Ini
-$this_limit = 5;
+$this_limit = 10;
 $this_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $this_start = ($this_page > 1) ? ($this_page * $this_limit) - $this_limit : 0;
 
@@ -63,7 +63,7 @@ $rowListed = $listedStudent->fetchAll(PDO::FETCH_ASSOC);
 
 
 // [ PAGINATION ] Absen Kelas Ini
-$att_limit = 3;
+$att_limit = 10;
 $att_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $att_start = ($att_page > 1) ? ($att_page * $att_limit) - $att_limit : 0;
 

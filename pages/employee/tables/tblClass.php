@@ -15,6 +15,7 @@
       <th class=" text-left px-2 py-3">Materi</th>
       <th class=" text-left px-2 py-3">Ruangan</th>
       <th class=" text-left px-2 py-3">Durasi</th>
+      <th class=" text-left px-2 py-3">Waktu Mulai</th>
       <th class=" text-left px-2 py-3">Tanggal</th>
       <th class=" text-center px-2 py-3 w-[50px]"></th>
     </tr>
@@ -29,6 +30,7 @@
           <td class="px-2 py-2"><?= $row['nama_materi'] ?></td>
           <td class="px-2 py-2"><?= $row['ruangan'] ?></td>
           <td class="px-2 py-2"><?= $row['durasi'] ?> menit</td>
+          <td class="px-2 py-2"><?= $row['jam'] ?></td>
           <td class="px-2 py-2"><?= $row['tanggal'] ?></td>
           <td class="text-center ">
             <button id="action-<?= $row['id_class'] ?>" class="action-button px-2 py-[5px] rounded-md hover:bg-slate-200"><i class="fa-solid fa-ellipsis"></i></button>

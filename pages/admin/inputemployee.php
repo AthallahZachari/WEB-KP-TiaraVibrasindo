@@ -15,8 +15,12 @@ $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
 $start = ($page > 1) ? ($page * $limit) - $limit : 0; // Hitung offset
 
-$sqlEmployee = "SELECT * FROM admin LIMIT :limit OFFSET :offset";
+$searchbox = isset($_GET['searchbox']) ? $_GET['searchbox'] : '';
+
+// [ GET ] All User List
+$sqlEmployee = "SELECT * FROM admin WHERE admin_name LIKE :searchbox LIMIT :limit OFFSET :offset ";
 $queryEmployee = $conn->prepare($sqlEmployee);
+$queryEmployee->bindValue(':searchbox', '%' . $searchbox . '%', PDO::PARAM_STR);
 $queryEmployee->bindValue(':limit', $limit, PDO::PARAM_INT);
 $queryEmployee->bindValue(':offset', $start, PDO::PARAM_INT);
 $queryEmployee->execute();
@@ -102,7 +106,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     
-    // [ BUTTONS ] button froup
+    // [ BUTTONS ] button group
     const btnAddNew = document.getElementById('btnTambahEmployee');
     const btnCancel = document.getElementById('btnCancel');
 

@@ -9,10 +9,10 @@
     <input type="hidden" name="id_admin" id="id_admin" value="<?= $row['id_admin'] ?>">
 
     <label for="edit_name" class=" mb-2 block text-sm font-medium text-gray-700">Nama</label>
-    <input type="text" name="edit_name" id="edit_name" value="<?= $row['admin_name']?>" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
+    <input type="text" name="edit_name" id="edit_name" value="<?= $row['admin_name'] ?>" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
 
     <label for="edit_nip" class=" mb-2 block text-sm font-medium text-gray-700">NIP / NIM</label>
-    <input type="text" name="edit_nip" id="edit_nip" value="<?= $row['nip']?>" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
+    <input type="text" name="edit_nip" id="edit_nip" value="<?= $row['nip'] ?>" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
 
 
     <label for="edit_gender" class=" mb-2 block text-sm font-medium text-gray-700">Gender & Role</label>
@@ -30,12 +30,12 @@
     </select>
 
     <label for="edit_password" class=" mb-2 block text-sm font-medium text-gray-700">Password</label>
-    <input type="text" name="edit_password" id="edit_password" value="<?= $row['password']?>" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
+    <input type="text" name="edit_password" id="edit_password" value="<?= $row['password'] ?>" class=" col-span-2 rounded-md px-4 py-2 mb-4 border border-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-300">
 
     <button
       type="button"
       class=" px-4 py-3 mr-3 col-start-1 col-end-2 border border-gray-300 rounded-md text-slate-600 hover:bg-gray-100"
-      onclick="toggleEditForm('<?= $row['id_admin'] ?>')">
+      onclick="document.getElementById('formEditClass-<?= $row['id_admin'] ?>').classList.add('hidden')" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
       Cancel
     </button>
     <button

@@ -10,7 +10,7 @@ class Utils
 
     // Generate password secara acak
     for ($i = 0; $i < $length; $i++) {
-      $randomPassword .= $characters[rand(0, $charactersLength - 1)];
+      $randomPassword .= $characters[random_int(0, $charactersLength - 1)];
     }
 
     return $randomPassword;
@@ -41,4 +41,6 @@ class Utils
     $readTime = new DateTime($time);
     return $readTime->format('H:i');
   }
+
 }
+

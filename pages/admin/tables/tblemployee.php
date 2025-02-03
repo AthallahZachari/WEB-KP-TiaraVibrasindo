@@ -5,7 +5,7 @@
 <section class="px-5 py-6 w-full rounded-lg shadow-xl">
   <div class=" w-auto mb-3 flex justify-between">
     <form action="" method="GET" class=" flex items-center">
-      <input type="text" name="searchbox" placeholder="Search..." class=" rounded-tl-md rounded-bl-md px-4 py-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
+      <input type="text" name="searchbox" value="<?= htmlspecialchars($searchbox) ?>" placeholder="Search..." class=" rounded-tl-md rounded-bl-md px-4 py-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-400">
       <button type="submit" class=" px-4 py-[4.7px] bg-blue-800 text-slate-100 rounded-tr-md rounded-br-md">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
@@ -71,3 +71,58 @@
   echo pagination($page, $total_pages, 'inputemployee.php', $start_row, $end_row);
   ?>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".action-button").forEach(button => {
+      button.addEventListener("click", function(event) {
+        let id = this.id.replace("action-", "dropdown-");
+        let dropdown = document.getElementById(id);
+
+        // Tutup semua dropdown lain sebelum membuka yang diklik
+        document.querySelectorAll(".dropdown-content").forEach(el => {
+          if (el !== dropdown) el.classList.add("hidden");
+        });
+
+        // Toggle dropdown yang diklik
+        dropdown.classList.toggle("hidden");
+
+        // Mencegah event bubbling ke elemen lain
+        event.stopPropagation();
+      });
+    });
+
+    // Tutup dropdown jika klik di luar
+    document.addEventListener("click", function() {
+      document.querySelectorAll(".dropdown-content").forEach(el => el.classList.add("hidden"));
+    });
+
+    // Mencegah dropdown tertutup jika diklik di dalamnya
+    document.querySelectorAll(".dropdown-content").forEach(dropdown => {
+      dropdown.addEventListener("click", function(event) {
+        event.stopPropagation();
+      });
+    });
+
+    // ✅ Event Listener untuk tombol Edit
+    document.querySelectorAll("[onclick^='toggleEditForm']").forEach(button => {
+      button.addEventListener("click", function() {
+        let id = this.getAttribute("onclick").match(/\d+/)[0]; // Ambil angka dari ID
+        let form = document.getElementById("formEditClass-" + id);
+
+        if (form) {
+          form.classList.remove("hidden"); // Tampilkan form
+        }
+      });
+    });
+
+    // ✅ Tutup form edit jika klik di luar
+    document.querySelectorAll("[id^='formEditClass']").forEach(form => {
+      form.addEventListener("click", function(event) {
+        if (event.target === this) {
+          this.classList.add("hidden"); // Sembunyikan form
+        }
+      });
+    });
+  });
+</script>
